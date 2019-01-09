@@ -33,7 +33,7 @@ static void SPI_transmit(unsigned char data)
     while( !(SPSR & (1 << SPIF)));
 }
 
-static void SPI_slave_select()
+void SPI_slave_select()
 {
     // set SS to high for 1us and back to low
     PORTB |= (1 << PORT_SS);
@@ -45,5 +45,4 @@ void send_code(uint16_t code)
 {
     SPI_transmit(code >> 8);
     SPI_transmit(code & 255);
-    SPI_slave_select();
 }

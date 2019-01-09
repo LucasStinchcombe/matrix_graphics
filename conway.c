@@ -4,6 +4,7 @@
 #define BELOW_POS(pos) ((pos + (MATRIX_SIZE - 1)) % MATRIX_SIZE)
 #define ABOVE_POS(pos) ((pos + 1 ) % MATRIX_SIZE)
 
+/*
 uint8_t matrix[MATRIX_SIZE] = {
     0b11111111,
     0b11111111,
@@ -14,8 +15,8 @@ uint8_t matrix[MATRIX_SIZE] = {
     0b11111111,
     0b11111111,
 };
+*/
 
-/*
 uint8_t matrix[MATRIX_SIZE] = {
     0b00010010,
     0b01101010,
@@ -26,7 +27,6 @@ uint8_t matrix[MATRIX_SIZE] = {
     0b01010101,
     0b10010110,
 };
-*/
 
 static uint8_t next[MATRIX_SIZE];
 
