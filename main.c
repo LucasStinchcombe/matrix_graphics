@@ -2,6 +2,7 @@
 #include <util/delay.h>
 
 #include "spi.h"
+#include "matrix.h"
 #include "conway.h"
 
 void pulse()
