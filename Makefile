@@ -1,29 +1,56 @@
-# Makefile for power test
-#
+# Makefile for 16x16 led matrix driver
 
 BUILD=./build
-GCC=avr-gcc -DF_CPU=16000000UL -mmcu=atmega328p -Os
+DEPS=./deps
+CFLAGS= -DF_CPU=16000000UL -mmcu=atmega328p -Os
+CC=avr-gcc
 
-build_dir:
-	mkdir -p $(BUILD)
+.PHONY: build \
+		dfu \
+		info \
+		clean
 
-$(BUILD)/main.o: main.c spi.h | build_dir
-	$(GCC) -c -o $@ $<
+SOURCES:=$(wildcard *.c)
 
-$(BUILD)/spi.o: spi.c spi.h | build_dir
-	$(GCC) -c -o $@ $<
+# PHONIES
+info:
+	@echo CC:$(CC)
+	@echo SOURCES:$(SOURCES)
+	@echo CFLAGS:$(CFLAGS)
 
-$(BUILD)/conway.o: conway.c conway.h | build_dir
-	$(GCC) -c -o $@ $<
-
-$(BUILD)/main: $(BUILD)/main.o $(BUILD)/spi.o $(BUILD)/conway.o
-	avr-gcc -mmcu=atmega328p $^ -o $@
-
-$(BUILD)/main.hex: $(BUILD)/main
-	avr-objcopy -O ihex -R .eeprom $^ $@
+build: $(BUILD)/main | build_dir
 
 dfu: $(BUILD)/main.hex
 	avrdude -F -V -c arduino -p ATMEGA328P -P \
 			/dev/ttyACM0 -b 115200 -U flash:w:$^
 clean:
 	rm -rf $(BUILD)
+	rm -rf $(DEPS)
+
+# Compiler-generated dependencies
+$(DEPS)/%.d: %.c
+	@echo generating deps for $@
+	@set -e; rm -f $@; \
+	mkdir -p $(DEPS); \
+	$(CC) -MM $(CFLAGS) $< > $@.$$$$; \
+	sed 's,\($*\)\.o[ :]*,$(BUILD)/\1.o $@ : ,g' < $@.$$$$ > $@; \
+	rm -f $@.$$$$
+
+-include $(SOURCES:%.c=$(DEPS)/%.d)
+
+# Generic .o file compilation
+$(BUILD)/%.o: | build_dir
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+# Creat BUILD directory
+build_dir:
+	mkdir -p $(BUILD)
+
+# Main executable depends on all .o files
+$(BUILD)/main: $(SOURCES:%.c=$(BUILD)/%.o)
+	$(CC) $(CFLAGS) $^ -o $@
+
+# Generic hexfile from avr executable
+$(BUILD)/%.hex: $(BUILD)/%
+	avr-objcopy -O ihex -R .eeprom $^ $@
+
