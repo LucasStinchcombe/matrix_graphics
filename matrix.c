@@ -1,6 +1,8 @@
 #include "matrix.h"
 #include "spi.h"
 
+#include <util/delay.h>
+
 #define QUADRANT_SIZE 8
 #define BIT(x, i) ((x & (1 << i)) >> i)
 #define BYTE_BIT_SWAP(x) (BIT(x, 0) << 7 \
@@ -12,37 +14,71 @@
                          |BIT(x, 6) << 1 \
                          |BIT(x, 7) << 0)
 
-uint16_t matrix[MATRIX_SIZE] = {
-    0b1000001010000010,
-    0b1100010111000101,
-    0b1110101111101011,
-    0b1111011111110111,
-    0b1110111111101111,
-    0b1101011111011111,
-    0b1011011110100011,
-    0b0111011101101011,
-    0b1000001010000010,
-    0b1100010111000101,
-    0b1110101011101011,
-    0b1111011111110111,
-    0b1110111011111111,
-    0b1101111011111111,
-    0b1011111111111111,
-    0b0111111101111111,
-};
+#define PULSE_LEVELS  4
 
 /*
-uint8_t matrix[MATRIX_SIZE] = {
-    0b00010010,
-    0b01101010,
-    0b00010110,
-    0b01010100,
-    0b00010110,
-    0b10100011,
-    0b01010101,
-    0b10010110,
+uint16_t matrix[MATRIX_SIZE] = {
+    0b1000101010111010,
+    0b1101110111010101,
+    0b1110101111101011,
+    0b1010011111110111,
+    0b1110011011101111,
+    0b1101011011011111,
+    0b1011011110100011,
+    0b0101011101101011,
+    0b1000001010011110,
+    0b1100010111000101,
+    0b0110101011101101,
+    0b1011011110110111,
+    0b1010101011101011,
+    0b1001101011010111,
+    0b1010001011111101,
+    0b0111010101010111,
 };
 */
+
+uint16_t matrix[MATRIX_SIZE] = {
+    0b0001001000010010,
+    0b0110101001101010,
+    0b0001011000010110,
+    0b0101010001010100,
+    0b0001011000010110,
+    0b1010001110100011,
+    0b0101010101010101,
+    0b1001011010010110,
+    0b0001001000010010,
+    0b0110101001101010,
+    0b0001011000010110,
+    0b0101010001010100,
+    0b0001011000010110,
+    0b1010001110100011,
+    0b0101010101010101,
+    0b1001011010010110,
+};
+
+void pulse_matrix()
+{
+    for (uint8_t i = 0; i != PULSE_LEVELS; ++i)
+    {
+        send_code(0x0A00 | i);
+        send_code(0x0A00 | i);
+        send_code(0x0A00 | i);
+        send_code(0x0A00 | i);
+        SPI_slave_select();
+        _delay_ms(25);
+    }
+
+
+    for (uint8_t i = 0; i != PULSE_LEVELS; ++i)
+    {
+        send_code(0x0A00 | PULSE_LEVELS - i);
+        send_code(0x0A00 | PULSE_LEVELS - i);
+        send_code(0x0A00 | PULSE_LEVELS - i);
+        send_code(0x0A00 | PULSE_LEVELS - i);
+        SPI_slave_select();
+        _delay_ms(25);
+    }
+}
 
 void matrix_init()
 {
@@ -68,4 +104,13 @@ void send_matrix()
                     | BYTE_BIT_SWAP(matrix[base_row]));
         SPI_slave_select();
     }
+}
+
+void send_matrix_code(uint16_t code)
+{
+    for (int i = 0; i != 4; ++i)
+    {
+        send_code(code);
+    }
+    SPI_slave_select();
 }

@@ -3,7 +3,7 @@
 #define BELOW_POS(pos) ((pos + (MATRIX_SIZE - 1)) % MATRIX_SIZE)
 #define ABOVE_POS(pos) ((pos + 1 ) % MATRIX_SIZE)
 
-static uint8_t next[MATRIX_SIZE];
+static uint16_t next[MATRIX_SIZE];
 
 void next_iter()
 {
