@@ -3,6 +3,7 @@
 #include <avr/io.h>
 #include <util/delay.h>
 
+
 #define MYFOSC 16000000UL
 #define DDR_SPI DDRB
 #define DD_SCK DDB5
@@ -19,7 +20,8 @@ void SPI_init()
     PORTB &= ~(1 << PORT_SS);
 
     // enable SPI, set as master, clock rate to fosc/16, LSB first
-    SPCR = (1 << SPE) | (1 << MSTR) | (1 << SPR0);
+    SPCR |= (1 << SPE) | (1 << MSTR) | (1 << SPR0);
+
     // set polarity and phase to sample on leading rising edge
     SPCR &= ~((1 << CPOL) | (1 << CPHA));
 
