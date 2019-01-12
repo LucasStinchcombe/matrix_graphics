@@ -12,15 +12,23 @@
                          |BIT(x, 6) << 1 \
                          |BIT(x, 7) << 0)
 
-uint8_t matrix[MATRIX_SIZE] = {
-    0b10000010,
-    0b11000101,
-    0b11101011,
-    0b11110111,
-    0b11101111,
-    0b11011111,
-    0b10111111,
-    0b01111111,
+uint16_t matrix[MATRIX_SIZE] = {
+    0b1000001010000010,
+    0b1100010111000101,
+    0b1110101111101011,
+    0b1111011111110111,
+    0b1110111111101111,
+    0b1101011111011111,
+    0b1011011110100011,
+    0b0111011101101011,
+    0b1000001010000010,
+    0b1100010111000101,
+    0b1110101011101011,
+    0b1111011111110111,
+    0b1110111011111111,
+    0b1101111011111111,
+    0b1011111111111111,
+    0b0111111101111111,
 };
 
 /*
@@ -43,13 +51,21 @@ void matrix_init()
 
 void send_matrix()
 {
+    int base_row;
+    int aux_row;
     for(int i = 0; i != QUADRANT_SIZE; ++i)
     {
-        for (int j = 0; j != 4; ++j)
-        {
-            send_code((i+1) << 8
-                    | BYTE_BIT_SWAP(matrix[MATRIX_SIZE - i - 1]));
-        }
+        base_row = QUADRANT_SIZE - i - 1;
+        aux_row = MATRIX_SIZE - i - 1;
+
+        send_code((i+1) << 8
+                    | BYTE_BIT_SWAP(matrix[aux_row] >> QUADRANT_SIZE));
+        send_code((i+1) << 8
+                    | BYTE_BIT_SWAP(matrix[aux_row]));
+        send_code((i+1) << 8
+                    | BYTE_BIT_SWAP(matrix[base_row] >> QUADRANT_SIZE));
+        send_code((i+1) << 8
+                    | BYTE_BIT_SWAP(matrix[base_row]));
         SPI_slave_select();
     }
 }

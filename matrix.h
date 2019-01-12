@@ -3,9 +3,9 @@
 
 #include <stdint.h>
 
-#define MATRIX_SIZE 8
+#define MATRIX_SIZE 16
 
-extern uint8_t matrix[MATRIX_SIZE];
+extern uint16_t matrix[MATRIX_SIZE];
 
 void matrix_init();
 void send_matrix();
