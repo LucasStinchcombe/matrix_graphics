@@ -3,7 +3,6 @@
 #include <avr/io.h>
 #include <util/delay.h>
 
-
 #define MYFOSC 16000000UL
 #define DDR_SPI DDRB
 #define DD_SCK DDB5

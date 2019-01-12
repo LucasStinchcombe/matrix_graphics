@@ -1,7 +1,16 @@
 #include "matrix.h"
 #include "spi.h"
 
-#define MATRIX_SIZE 8
+#define QUADRANT_SIZE 8
+#define BIT(x, i) ((x & (1 << i)) >> i)
+#define BYTE_BIT_SWAP(x) (BIT(x, 0) << 7 \
+                         |BIT(x, 1) << 6 \
+                         |BIT(x, 2) << 5 \
+                         |BIT(x, 3) << 4 \
+                         |BIT(x, 4) << 3 \
+                         |BIT(x, 5) << 2 \
+                         |BIT(x, 6) << 1 \
+                         |BIT(x, 7) << 0)
 
 uint8_t matrix[MATRIX_SIZE] = {
     0b10000010,
@@ -34,7 +43,7 @@ void matrix_init()
 
 void send_matrix()
 {
-    for(int i = 0; i != MATRIX_SIZE; ++i)
+    for(int i = 0; i != QUADRANT_SIZE; ++i)
     {
         for (int j = 0; j != 4; ++j)
         {
