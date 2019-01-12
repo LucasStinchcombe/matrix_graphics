@@ -16,6 +16,7 @@
 
 #define PULSE_LEVELS  4
 
+// clang-format off
 /*
 uint16_t matrix[MATRIX_SIZE] = {
     0b1000101010111010,
@@ -55,6 +56,7 @@ uint16_t matrix[MATRIX_SIZE] = {
     0b0101010101010101,
     0b1001011010010110,
 };
+// clang-format on
 
 void pulse_matrix()
 {
