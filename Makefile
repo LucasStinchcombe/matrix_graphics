@@ -13,6 +13,10 @@ TMP=./tmp
 
 SOURCES:=$(wildcard *.c)
 
+ifdef DEBUG
+CFLAGS += -D DEBUG
+endif
+
 .PHONY: build \
 		dfu \
 		info \
