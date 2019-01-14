@@ -36,6 +36,7 @@ info:
 	@echo CC:$(CC)
 	@echo SOURCES:$(SOURCES)
 	@echo CFLAGS:$(CFLAGS)
+	@echo LDFLAGS:$(LDFLAGS)
 
 format:
 	@mkdir -p $(TMP); \
