@@ -1,5 +1,7 @@
 # Makefile for 16x16 led matrix driver
 
+# link printf functions which implement flotaing point conversion
+LDFLAGS= -Wl,-u,vfprintf -lprintf_flt -lm
 CFLAGS= -DF_CPU=16000000UL -mmcu=atmega328p -Os
 CC=avr-gcc
 FORMAT=clang-format
@@ -9,15 +11,16 @@ BUILD=./build
 DEPS=./deps
 TMP=./tmp
 
+SOURCES:=$(wildcard *.c)
+
 .PHONY: build \
 		dfu \
 		info \
 		format \
 		clean
 
-SOURCES:=$(wildcard *.c)
 
-# PHONIES
+#### PHONIES
 
 build: $(BUILD)/main | build_dir
 
@@ -44,6 +47,9 @@ clean:
 	rm -rf $(DEPS)
 	rm -rf $(TMP)
 
+
+#### Generic Targets
+
 # Compiler-generated dependencies
 $(DEPS)/%.d: %.c
 	@echo generating deps for $@
@@ -53,11 +59,16 @@ $(DEPS)/%.d: %.c
 	sed 's,\($*\)\.o[ :]*,$(BUILD)/\1.o $@ : ,g' < $@.$$$$ > $@; \
 	rm -f $@.$$$$
 
--include $(SOURCES:%.c=$(DEPS)/%.d)
-
 # Generic .o file compilation
 $(BUILD)/%.o: | build_dir
 	$(CC) $(CFLAGS) -c -o $@ $<
+
+# Generic hexfile from avr executable
+$(BUILD)/%.hex: $(BUILD)/%
+	avr-objcopy -O ihex -R .eeprom $^ $@
+
+
+#### Program Targets
 
 # Creat BUILD directory
 build_dir:
@@ -65,9 +76,8 @@ build_dir:
 
 # Main executable depends on all .o files
 $(BUILD)/main: $(SOURCES:%.c=$(BUILD)/%.o)
-	$(CC) $(CFLAGS) $^ -o $@
+	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@
 
-# Generic hexfile from avr executable
-$(BUILD)/%.hex: $(BUILD)/%
-	avr-objcopy -O ihex -R .eeprom $^ $@
 
+# include generated dependencies
+-include $(SOURCES:%.c=$(DEPS)/%.d)

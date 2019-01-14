@@ -1,9 +1,5 @@
 #include <avr/io.h>
 
-#define MYFOSC 16000000UL
-#define BAUD 9600
-#define MYUBRR MYFOSC / 16 / BAUD - 1
-
 void UART_init(unsigned int ubrr)
 {
     // set baud rate registers
