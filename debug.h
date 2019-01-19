@@ -10,6 +10,24 @@
 #define LOG_INIT()
 #endif
 
+#if DEBUG > 2
+#define TRACE_LOG(args...) fprintf(&log_stream, "TRACE: " args)
+#else
+#define TRACE_LOG(args...)
+#endif
+
+#if DEBUG > 1
+#define DEBUG_LOG(args...) fprintf(&log_stream, "DEBUG: " args)
+#else
+#define DEBUG_LOG(args...)
+#endif
+
+#if DEBUG > 0
+#define INFO_LOG(args...) fprintf(&log_stream, "INFO: " args)
+#else
+#define INFO_LOG(args...)
+#endif
+
 extern FILE log_stream;
 void debug_init();
 

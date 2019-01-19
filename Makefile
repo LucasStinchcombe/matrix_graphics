@@ -14,7 +14,7 @@ TMP=./tmp
 SOURCES:=$(wildcard *.c)
 
 ifdef DEBUG
-CFLAGS += -D DEBUG
+CFLAGS += -D DEBUG=$(DEBUG)
 endif
 
 .PHONY: build \

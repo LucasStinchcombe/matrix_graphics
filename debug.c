@@ -13,7 +13,7 @@ void debug_init()
     if (!is_init)
     {
         UART_init(MYUBRR);
-        LOG("Debugging initialized.\n");
+        LOG("\nDebugging initialized.\n");
         is_init = 1;
     }
 }
