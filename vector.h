@@ -5,26 +5,26 @@ typedef struct Point2D
 {
     float x;
     float y;
-} point_2d;
+} point2d_t;
 
 typedef struct Vector2D
 {
-    point_2d p1;
-    point_2d p2;
-} vector_2d;
+    point2d_t p1;
+    point2d_t p2;
+} vector2d_t;
 
 typedef struct Point3D
 {
     float x;
     float y;
     float z;
-} point_3d;
+} point3d_t;
 
 typedef struct Vector3D
 {
-    point_3d p1;
-    point_3d p2;
-} vector_3d;
+    point3d_t p1;
+    point3d_t p2;
+} vector3d_t;
 
 float lin_func(float m, float b, float x);
 

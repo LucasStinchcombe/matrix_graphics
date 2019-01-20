@@ -8,7 +8,7 @@
 
 extern uint16_t matrix[MATRIX_SIZE];
 
-void matrix_draw(vector_2d vec);
-void matrix_basis(vector_2d *vec);
+void matrix_draw(vector2d_t vec);
+void matrix_basis(vector2d_t *vec);
 
 #endif

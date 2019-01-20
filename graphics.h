@@ -8,16 +8,16 @@ typedef struct Tb_angles
     float x;
     float y;
     float z;
-} tb_angles;
+} angle3d_t;
 
 typedef struct Camera
 {
-    point_3d position;
-    tb_angles orientation;
+    point3d_t position;
+    angle3d_t orientation;
     float focal_length;
-} camera;
+} camera_t;
 
-point_2d perspective(camera *camera, point_3d point);
-void rotate_basis(tb_angles *angles, point_3d *point);
+point2d_t perspective(camera_t *camera_t, point3d_t point);
+void rotate_basis(angle3d_t *angles, point3d_t *point);
 
 #endif

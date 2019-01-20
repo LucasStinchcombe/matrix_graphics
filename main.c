@@ -32,48 +32,48 @@ int main()
     // disable shutdown mode
     send_matrix_code(0x0C01);
 
-    camera g_camera = {.position = {0.5, 0.5, -3.0},
-                       .orientation = {0.0, M_PI_4 / 16, 0.0},
+    camera_t g_camera_t = {.position = {0.5, 0.5, -3.0},
+                       .orientation = {0.0, 0.0, 0.0},
                        .focal_length = 2.0};
 
     /*
-    g_camera.position.x -= 0.5;
-    g_camera.position.y -= 0.5;
-    g_camera.position.z -= 0.5;
+    g_camera_t.position.x -= 0.5;
+    g_camera_t.position.y -= 0.5;
+    g_camera_t.position.z -= 0.5;
 
-    tb_angles tb= {0.0, -M_PI_4, 0.0};
-    rotate_basis(&tb, &g_camera.position);
+    angle3d_t tb= {0.0, -M_PI_4, 0.0};
+    rotate_basis(&tb, &g_camera_t.position);
 
-    g_camera.position.x += 0.5;
-    g_camera.position.y += 0.5;
-    g_camera.position.z += 0.5;
+    g_camera_t.position.x += 0.5;
+    g_camera_t.position.y += 0.5;
+    g_camera_t.position.z += 0.5;
     */
 
-    vector_3d cube[12];
+    vector3d_t cube[12];
     /*
-    cube[0] = (vector_3d){{0.0, 0.0, 0.0}, {0.0, 0.0, 1.0}};
-    cube[1] = (vector_3d){{0.0, 0.0, 0.0}, {0.0, 1.0, 0.0}};
-    cube[2] = (vector_3d){{0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}};
-    cube[3] = (vector_3d){{0.0, 0.0, 1.0}, {0.0, 1.0, 1.0}};
-    cube[4] = (vector_3d){{0.0, 0.0, 1.0}, {1.0, 0.0, 1.0}};
-    cube[5] = (vector_3d){{0.0, 1.0, 0.0}, {0.0, 1.0, 1.0}};
-    cube[6] = (vector_3d){{1.0, 1.0, 1.0}, {1.0, 1.0, 0.0}};
-    cube[7] = (vector_3d){{1.0, 1.0, 1.0}, {1.0, 0.0, 1.0}};
-    cube[8] = (vector_3d){{1.0, 1.0, 1.0}, {0.0, 1.0, 1.0}};
-    cube[9] = (vector_3d){{1.0, 1.0, 0.0}, {1.0, 0.0, 0.0}};
-    cube[10] = (vector_3d){{1.0, 1.0, 0.0}, {0.0, 1.0, 0.0}};
-    cube[11] = (vector_3d){{1.0, 0.0, 1.0}, {1.0, 0.0, 0.0}};
+    cube[0] = (vector3d_t){{0.0, 0.0, 0.0}, {0.0, 0.0, 1.0}};
+    cube[1] = (vector3d_t){{0.0, 0.0, 0.0}, {0.0, 1.0, 0.0}};
+    cube[2] = (vector3d_t){{0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}};
+    cube[3] = (vector3d_t){{0.0, 0.0, 1.0}, {0.0, 1.0, 1.0}};
+    cube[4] = (vector3d_t){{0.0, 0.0, 1.0}, {1.0, 0.0, 1.0}};
+    cube[5] = (vector3d_t){{0.0, 1.0, 0.0}, {0.0, 1.0, 1.0}};
+    cube[6] = (vector3d_t){{1.0, 1.0, 1.0}, {1.0, 1.0, 0.0}};
+    cube[7] = (vector3d_t){{1.0, 1.0, 1.0}, {1.0, 0.0, 1.0}};
+    cube[8] = (vector3d_t){{1.0, 1.0, 1.0}, {0.0, 1.0, 1.0}};
+    cube[9] = (vector3d_t){{1.0, 1.0, 0.0}, {1.0, 0.0, 0.0}};
+    cube[10] = (vector3d_t){{1.0, 1.0, 0.0}, {0.0, 1.0, 0.0}};
+    cube[11] = (vector3d_t){{1.0, 0.0, 1.0}, {1.0, 0.0, 0.0}};
     */
 
-    cube[0] = (vector_3d){{0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}};
-    cube[1] = (vector_3d){{0.0, 0.0, 0.0}, {0.0, 1.0, 0.0}};
-    cube[2] = (vector_3d){{0.0, 1.0, 0.0}, {1.0, 1.0, 0.0}};
-    cube[3] = (vector_3d){{1.0, 0.0, 0.0}, {1.0, 1.0, 0.0}};
+    cube[0] = (vector3d_t){{0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}};
+    cube[1] = (vector3d_t){{0.0, 0.0, 0.0}, {0.0, 1.0, 0.0}};
+    cube[2] = (vector3d_t){{0.0, 1.0, 0.0}, {1.0, 1.0, 0.0}};
+    cube[3] = (vector3d_t){{1.0, 0.0, 0.0}, {1.0, 1.0, 0.0}};
 
     for (int i = 0; i != 4; ++i)
     {
-        vector_2d vec = {perspective(&g_camera, cube[i].p1),
-                         perspective(&g_camera, cube[i].p2)};
+        vector2d_t vec = {perspective(&g_camera_t, cube[i].p1),
+                         perspective(&g_camera_t, cube[i].p2)};
         matrix_basis(&vec);
 
         LOG("projected ((%f,%f), (%f,%f))\n", vec.p1.x, vec.p1.y, vec.p2.x,

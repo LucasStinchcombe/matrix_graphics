@@ -13,7 +13,7 @@
 uint16_t matrix[MATRIX_SIZE];
 
 // expects that p2.x >= p1.x && p2.y >= p1.y
-static int pop_endpoint(vector_2d *vec, point_2d *point)
+static int pop_endpoint(vector2d_t *vec, point2d_t *point)
 {
     if (vec->p1.x == vec->p2.x && vec->p1.y == vec->p2.y)
     {
@@ -38,10 +38,10 @@ static int pop_endpoint(vector_2d *vec, point_2d *point)
     }
     else
     {
-        point_2d x_candidate = {.x = floor(point->x + 1),
+        point2d_t x_candidate = {.x = floor(point->x + 1),
                                 .y = lin_func(m, b, floor(point->x) + 1)};
 
-        point_2d y_candidate = {
+        point2d_t y_candidate = {
             .x = lin_func(1.0 / m, -b / m, floor(point->y) + 1),
             .y = floor(point->y + 1)};
 
@@ -68,7 +68,7 @@ static int pop_endpoint(vector_2d *vec, point_2d *point)
     return 1;
 }
 
-void fix_bounds(point_2d *point)
+void fix_bounds(point2d_t *point)
 {
     point->x = fmax(0.0, point->x);
     point->x = fmin(16.0, point->x);
@@ -76,7 +76,7 @@ void fix_bounds(point_2d *point)
     point->y = fmin(16.0, point->y);
 }
 
-void matrix_draw(vector_2d vec)
+void matrix_draw(vector2d_t vec)
 {
     INFO_LOG("Rasterizing vector ((%f,%f), (%f,%f))\n", vec.p1.x, vec.p1.y,
              vec.p2.x, vec.p2.y);
@@ -90,14 +90,16 @@ void matrix_draw(vector_2d vec)
 
     TRACE_LOG("Multiplying by scalars (%d,%d)\n", sign_x, sign_y);
 
-    // scale by 16 and transform by sign vec.p1.x *= 16 * sign_x; vec.p1.y *= 16
-    // * sign_y; vec.p2.x *= 16 * sign_x;
+    // scale by 16 and transform by sign
+    vec.p1.x *= 16 * sign_x;
+    vec.p1.y *= 16 * sign_y;
+    vec.p2.x *= 16 * sign_x;
     vec.p2.y *= 16 * sign_y;
 
     INFO_LOG("Running algorithm on ((%f,%f), (%f,%f))\n", vec.p1.x, vec.p1.y,
              vec.p2.x, vec.p2.y);
 
-    point_2d point;
+    point2d_t point;
     while (pop_endpoint(&vec, &point))
     {
         TRACE_LOG("popped endpoint (%f,%f)\n", point.x, point.y);
@@ -117,7 +119,7 @@ void matrix_draw(vector_2d vec)
     }
 }
 
-void matrix_basis(vector_2d *vec)
+void matrix_basis(vector2d_t *vec)
 {
     vec->p1.x += 0.5;
     vec->p1.y += 0.5;
