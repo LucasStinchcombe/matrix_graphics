@@ -1,5 +1,5 @@
-#ifndef ONETWO_CONWAY_H
-#define ONETWO_CONWAY_H
+#ifndef MATRIX_GRAPHICS_CONWAY_H
+#define MATRIX_GRAPHICS_CONWAY_H
 
 #include "matrix.h"
 #include <stdint.h>

@@ -1,5 +1,5 @@
-#ifndef ONETWO_DEBUG_H
-#define ONETWO_DEBUG_H
+#ifndef MATRIX_GRAPHICS_DEBUG_H
+#define MATRIX_GRAPHICS_DEBUG_H
 #include <stdio.h>
 
 #ifdef DEBUG

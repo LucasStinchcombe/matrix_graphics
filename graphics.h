@@ -1,5 +1,5 @@
-#ifndef ONETWO_GRAPHICS_H
-#define ONETWO_GRAPHICS_H
+#ifndef MATRIX_GRAPHICS_GRAPHICS_H
+#define MATRIX_GRAPHICS_GRAPHICS_H
 
 #include "vector.h"
 

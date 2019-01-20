@@ -1,5 +1,5 @@
-#ifndef ONETWO_LED_MATRIX_H
-#define ONETWO_LED_MATRIX_H
+#ifndef MATRIX_GRAPHICS_LED_MATRIX_H
+#define MATRIX_GRAPHICS_LED_MATRIX_H
 #include "matrix.h"
 
 void matrix_init();

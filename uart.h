@@ -1,5 +1,5 @@
-#ifndef ONETWO_UART_H
-#define ONETWO_UART_H
+#ifndef MATRIX_GRAPHICS_UART_H
+#define MATRIX_GRAPHICS_UART_H
 
 #include <avr/io.h>
 

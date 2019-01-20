@@ -1,5 +1,5 @@
-#ifndef ONETWO_VECTOR_H
-#define ONETWO_VECTOR_H
+#ifndef MATRIX_GRAPHICS_VECTOR_H
+#define MATRIX_GRAPHICS_VECTOR_H
 
 typedef struct Point2D
 {

@@ -1,5 +1,5 @@
-#ifndef ONETWO_MATRIX_H
-#define ONETWO_MATRIX_H
+#ifndef MATRIX_GRAPHICS_MATRIX_H
+#define MATRIX_GRAPHICS_MATRIX_H
 
 #include "vector.h"
 #include <stdint.h>

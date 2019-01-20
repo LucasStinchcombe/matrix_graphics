@@ -1,5 +1,5 @@
-#ifndef ONETWO_SPI_H
-#define ONETWO_SPI_H
+#ifndef MATRIX_GRAPHICS_SPI_H
+#define MATRIX_GRAPHICS_SPI_H
 
 #include <stdint.h>
 
