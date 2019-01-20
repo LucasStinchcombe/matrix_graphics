@@ -1,6 +1,8 @@
 #include "graphics.h"
 #include "debug.h"
 
+#include <math.h>
+
 void camera_basis(camera *camera, point_3d *point)
 {
     // adjust to camera frame
@@ -9,6 +11,7 @@ void camera_basis(camera *camera, point_3d *point)
     point->z -= camera->position.z;
 
     // TODO rotate to camera orientation;
+    rotate_basis(&camera->orientation, point);
 }
 
 point_2d perspective(camera *camera, point_3d point)
@@ -22,4 +25,16 @@ point_2d perspective(camera *camera, point_3d point)
 
     LOG("projected (%f,%f)\n", retval.x, retval.y);
     return retval;
+}
+
+void rotate_basis(tb_angles *angles, point_3d *point)
+{
+    point->x = cos(angles->z) * point->x + sin(angles->z) * point->y;
+    point->y = -sin(angles->z) * point->x + cos(angles->z) * point->y;
+
+    point->x = cos(angles->y) * point->x - sin(angles->y) * point->z;
+    point->z = sin(angles->y) * point->x + cos(angles->y) * point->z;
+
+    point->y = cos(angles->x) * point->y + sin(angles->x) * point->z;
+    point->z = -sin(angles->x) * point->y + cos(angles->x) * point->z;
 }

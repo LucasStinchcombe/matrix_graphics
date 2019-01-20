@@ -18,5 +18,6 @@ typedef struct Camera
 } camera;
 
 point_2d perspective(camera *camera, point_3d point);
+void rotate_basis(tb_angles *angles, point_3d *point);
 
 #endif
