@@ -126,3 +126,11 @@ void matrix_basis(vector2d_t *vec)
     vec->p2.x += 0.5;
     vec->p2.y += 0.5;
 }
+
+void matrix_clear()
+{
+    for(int i = 0; i != MATRIX_SIZE; ++i)
+    {
+        matrix[i] = 0;
+    }
+}
