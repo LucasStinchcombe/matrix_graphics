@@ -4,7 +4,7 @@
 #include <float.h>
 #include <math.h>
 
-#define RASTERIZATION_THRESHOLD 0.001
+#define RASTERIZATION_THRESHOLD 0.01
 #define QUADRANT_SIZE 8
 #define PULSE_LEVELS 4
 

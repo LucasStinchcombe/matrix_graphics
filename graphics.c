@@ -29,12 +29,15 @@ point2d_t perspective(camera_t *camera_t, point3d_t point)
 
 void rotate_basis(angle3d_t *angles, point3d_t *point)
 {
-    point->x = cos(angles->z) * point->x + sin(angles->z) * point->y;
+    float x = cos(angles->z) * point->x + sin(angles->z) * point->y;
     point->y = -sin(angles->z) * point->x + cos(angles->z) * point->y;
+    point->x = x;
 
-    point->x = cos(angles->y) * point->x - sin(angles->y) * point->z;
+    x = cos(angles->y) * point->x - sin(angles->y) * point->z;
     point->z = sin(angles->y) * point->x + cos(angles->y) * point->z;
+    point->x = x;
 
-    point->y = cos(angles->x) * point->y + sin(angles->x) * point->z;
+    x = cos(angles->x) * point->y + sin(angles->x) * point->z;
     point->z = -sin(angles->x) * point->y + cos(angles->x) * point->z;
+    point->y = x;
 }

@@ -1,10 +1,10 @@
 # Makefile for matrix graphics tests
 
-LDFLAGS= $(shell pkg-config --cflags --libs check)
+LDFLAGS= $(shell pkg-config --cflags --libs check) -lm
 CFLAGS= -I..
 CC=gcc
 
-SOURCES:= matrix.c vector.c
+SOURCES:= matrix.c vector.c graphics.c
 TEST_SOURCES:=$(wildcard *.t.c)
 
 BUILD=./build
