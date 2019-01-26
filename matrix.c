@@ -4,7 +4,7 @@
 #include <float.h>
 #include <math.h>
 
-#define RASTERIZATION_THRESHOLD 0.01
+#define RASTERIZATION_THRESHOLD 0.9
 #define QUADRANT_SIZE 8
 #define PULSE_LEVELS 4
 
@@ -39,7 +39,7 @@ static int pop_endpoint(vector2d_t *vec, point2d_t *point)
     else
     {
         point2d_t x_candidate = {.x = floor(point->x + 1),
-                                .y = lin_func(m, b, floor(point->x) + 1)};
+                                 .y = lin_func(m, b, floor(point->x) + 1)};
 
         point2d_t y_candidate = {
             .x = lin_func(1.0 / m, -b / m, floor(point->y) + 1),
@@ -48,15 +48,29 @@ static int pop_endpoint(vector2d_t *vec, point2d_t *point)
         TRACE_LOG("x-candidate (%f,%f)\n", x_candidate.x, x_candidate.y);
         TRACE_LOG("y-candidate (%f,%f)\n", y_candidate.x, y_candidate.y);
 
-        // get next point that intersects with grid with threshold
-        if (x_candidate.x < y_candidate.x - RASTERIZATION_THRESHOLD &&
-            x_candidate.y < y_candidate.y - RASTERIZATION_THRESHOLD)
+        point2d_t *candidate_1;
+        point2d_t *candidate_2;
+        if (x_candidate.x < y_candidate.x)
         {
-            vec->p1 = x_candidate;
+            candidate_1 = &x_candidate;
+            candidate_2 = &y_candidate;
         }
         else
         {
-            vec->p1 = y_candidate;
+            candidate_1 = &y_candidate;
+            candidate_2 = &x_candidate;
+        }
+
+        // get next point that intersects with grid with threshold
+        if ((candidate_2->x - candidate_1->x) +
+                (candidate_2->y - candidate_1->y) <
+            RASTERIZATION_THRESHOLD)
+        {
+            vec->p1 = *candidate_2;
+        }
+        else
+        {
+            vec->p1 = *candidate_1;
         }
     }
     DEBUG_LOG("chosen (%f,%f)\n", vec->p1.x, vec->p1.y);
@@ -129,7 +143,7 @@ void matrix_basis(vector2d_t *vec)
 
 void matrix_clear()
 {
-    for(int i = 0; i != MATRIX_SIZE; ++i)
+    for (int i = 0; i != MATRIX_SIZE; ++i)
     {
         matrix[i] = 0;
     }

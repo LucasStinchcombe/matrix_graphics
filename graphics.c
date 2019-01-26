@@ -21,7 +21,7 @@ point2d_t perspective(camera_t *camera_t, point3d_t point)
     LOG("camera_t-adjusted (%f,%f,%f)\n", point.x, point.y, point.z);
 
     point2d_t retval = {.x = ((camera_t->focal_length / point.z) * point.x),
-                       .y = (camera_t->focal_length / point.z) * point.y};
+                        .y = (camera_t->focal_length / point.z) * point.y};
 
     LOG("projected (%f,%f)\n", retval.x, retval.y);
     return retval;
